@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "986133606180",
+    "project_id": "hello-dosto",
+    "storage_bucket": "hello-dosto.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:986133606180:android:69e1223b4434b0dab24db1",
+        "android_client_info": {
+          "package_name": "com.hellodosto"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "986133606180-p27nfa4idntj84680krrsahprdablpjt.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCFbG-ZxqjHgLJ59nQtCvae7LqoGSkTkpg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "986133606180-p27nfa4idntj84680krrsahprdablpjt.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
