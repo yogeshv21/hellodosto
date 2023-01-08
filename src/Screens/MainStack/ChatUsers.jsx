@@ -19,31 +19,10 @@ import {useSelector} from "react-redux"
 
 
 const OtherUserCard = ({data}) => {  
-  const [loader , setLoader] = useState(true)
-  const [userDetails, setUserDetails] = useState()
-  const getFriendsDetails = (params) => {
-    firestore().collection('users').doc(params).get().then((details)=>{
-      setUserDetails(details.data())
-      setLoader(false)
-    }).catch((err)=>{
-    });
-  }
-  useEffect(()=>{
-    getFriendsDetails(data.userId)
-  },[])
-  const navigation = useNavigation()
-  const profileHandler = (params)=>{
-    navigation.navigate('Stack', {screen: "Profile", params:{data:params}})
-  }
-
-  if(loader){
-    return  ''
-  }
-    
   return (
-    <TouchableOpacity style={Styles.cardCont} onPress={()=>profileHandler(userDetails)}>
+    <TouchableOpacity style={Styles.cardCont}>
       <View style={Styles.profileImg}>
-      <Image source={{uri: userDetails.pic}} 
+      <Image source={{uri: data.photoURL}} 
            style={{
             height: '100%',
             width: '100%',
@@ -51,45 +30,40 @@ const OtherUserCard = ({data}) => {
            }}/>
       </View>
       <View style={Styles.nameCont}>
-        <Text style={Styles.userName}>{userDetails.name}</Text>
-        <Text style={Styles.userEmail}>{userDetails.email}</Text>
+        <Text style={Styles.userName}>{data.name}</Text>
       </View>
     </TouchableOpacity>
   );
 };
 
-const Friends = () => { 
-  const [loader , setLoader] = useState(true)
+const ChatUsers = () => { 
   const currentUser = useSelector((state=>state.userDetails.userDetails))
-  const [friends, setFrineds] = useState();   
-  const getFriends = () => {
-    try{
-        firestore().collection('users').doc(currentUser.uid).collection('friends').onSnapshot((quarySnap)=>{
-        const allUsers = quarySnap.docs.map(docSnap => docSnap.data());
-        setFrineds(allUsers)
-        setLoader(false)
-        });
-    }catch(err){}
-  };
-    useEffect(() => {
-        getFriends()
-    }, []);
-
-    if(loader){
-      return  <ActivityIndicator size="large" color={"transprent"} />
-    }
+  const [chatUsers, setChatUsers] = useState([])
+  useEffect(()=>{
+     try{
+        const users = []
+        firestore().collection("userChat").doc(currentUser.uid).onSnapshot((data)=>{
+           Object.entries(data.data())?.sort((a,b)=>b[1].date - a[1].date).forEach((chat)=>{
+             console.log("++++ From UsersChat ++++", chat[1].userInfo);
+             users.push(chat[1].userInfo)
+           })
+        if(users !== []){
+            setChatUsers(users)
+        }
+        })
+     }catch(err){
+        console.log(err);
+     }
+  },[])
   return (
     <SafeAreaView style={Styles.container}>
       <FocusedStatusBar backgroundColor={COLORS.primary} />
       <View style={{flex: 1}}>
         <View style={{zIndex: 0, flex: 1}}>
           <FlatList
-            data={friends}
+            data={chatUsers}
             renderItem={({item}) => <OtherUserCard data={item}/>}
-            refreshControl={<RefreshControl refreshing={loader} onRefresh={()=>{
-              getFriends()
-            }}/>}
-            keyExtractor={(item )=> item.userId}
+            keyExtractor={(item )=> item.uid}
             showsVerticalScrollIndicator={false}
           />
         </View>
@@ -120,7 +94,7 @@ const Friends = () => {
   );
 };
 
-export default Friends;
+export default ChatUsers;
 
 const Styles = StyleSheet.create({
   container: {

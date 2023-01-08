@@ -1,11 +1,9 @@
 import React, {useState, useEffect, useRef} from 'react';
 import {
   View,
-  ScrollView,
   StyleSheet,
   Text,
   TextInput,
-  Button,
   TouchableOpacity,
   FlatList,
 } from 'react-native';
@@ -17,14 +15,9 @@ const Chat = ({route, navigation}) => {
   const currentUser = useSelector(state => state.userDetails.userDetails);
   const user = route.params.user;
   const chatId = route.params.combinedId;
-  const [messages, setMessages] = useState();
+  const [messages, setMessages] = useState(null);
   const [inputTxt, setInputTxt] = useState("");
-  const ref = useRef();
-
-  useEffect(() => {
-    ref.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages]);
-
+  const scrollViewRef = useRef(null);
 
   useEffect(() => {
     try {
@@ -65,7 +58,14 @@ const Chat = ({route, navigation}) => {
 
   return (
     <View style={{flex: 1,  backgroundColor: '#ddddf773'}}>
+      {messages !== null?
       <FlatList 
+        showsVerticalScrollIndicator={false}
+        ref={(it) => (scrollViewRef.current = it)}
+        onContentSizeChange={() =>
+          scrollViewRef.current?.scrollToEnd({animated: true})
+        }
+        onLayout={() => scrollViewRef.current?.scrollToEnd({animated: true})}
          data={messages} 
          renderItem={({item})=> 
             <View style={[Styles.msg, item.senderId === currentUser.uid? Styles.msg_rgt: Styles.msg_lft]}>
@@ -73,15 +73,17 @@ const Chat = ({route, navigation}) => {
                   {item.text}
                </Text>
             </View>}
-         style={{flex: 1}}/>
+         style={{flex: 1}}/>:""
+      }
       <View style={{flexDirection: 'row', padding: VW(45),backgroundColor: "white", marginTop: 20}}>
         <TextInput
           style={{width: '80%', fontSize: VW(23), backgroundColor: "white"}}
           placeholder="Write Message..."
           onChangeText={(e)=> setInputTxt(e)}
           value={inputTxt}
+          placeholderTextColor={"black"}
         />
-        <TouchableOpacity
+        {inputTxt !== ""?  <TouchableOpacity
           onPress={() => handleSend()}
           style={{
             width: '20%',
@@ -91,7 +93,8 @@ const Chat = ({route, navigation}) => {
             justifyContent: 'center',
           }}>
           <Text style={{color: 'white', fontSize: VW(28)}}>Send</Text>
-        </TouchableOpacity>
+        </TouchableOpacity>: ""}
+       
       </View>
     </View>
   );
@@ -99,7 +102,6 @@ const Chat = ({route, navigation}) => {
 
 const Styles = StyleSheet.create({
   msg: {
-    width: '70%',
     marginTop: 26,
     paddingVertical: VW(40),
     borderTopEndRadius: VW(40),

@@ -3,7 +3,7 @@ import React, {useState, useEffect} from 'react';
 import {Text, View, SafeAreaView, FlatList, StyleSheet} from 'react-native';
 import {NFTData} from '../../constants/index';
 import HomeHeader from '../../Components/HomeHeader';
-import FocusedStatusBar from '../../Components/FocusedStatusBar';
+import {FocusedStatusBar, Chats} from '../../Components/Index';
 import NFTcards from '../../Components/NFTcards';
 import {COLORS} from '../../Theme/Index';
 
@@ -12,6 +12,7 @@ const Home = () => {
   
   return (
     <SafeAreaView style={Styles.container}>
+      <Chats/>
       <FocusedStatusBar backgroundColor={COLORS.primary} />
       <View style={{flex: 1}}>
         <View style={{zIndex: 0}}>

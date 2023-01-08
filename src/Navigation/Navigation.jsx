@@ -26,7 +26,6 @@ const Navigation = () => {
   const getChats = (uid) => {
     try{
       firestore().collection("userChat").doc(uid).onSnapshot((res)=>{
-        console.log("////////from initial", res.data());
            dispatch(getCurrentUserChat(res.data()))
       })
     }catch(err){

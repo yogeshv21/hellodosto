@@ -3,7 +3,7 @@ import React, {useState, useEffect} from 'react';
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import {Search, Details, Profile, Home, Friends, Chat} from '../Screens/Index';
+import {Search, Details, Profile, Home, Friends, Chat, ChatUsers} from '../Screens/Index';
 import {useSelector, useDispatch} from 'react-redux';
 import {getUserDetails} from '../Redux/Actions/userDataAction';
 import {ActivityIndicator} from 'react-native-paper';
@@ -42,6 +42,7 @@ const StackNavigator = () => {
       <Stack.Screen name="Details" component={Details} />
       <Stack.Screen name="Profile" component={Profile} />
       <Stack.Screen name="Chat" component={Chat} />
+      <Stack.Screen name="ChatUsers" component={ChatUsers} />
     </Stack.Navigator>
   );
 };

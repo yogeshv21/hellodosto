@@ -10,8 +10,10 @@ import NFTcards from './NFTcards'
 import DetailsDesc from "./DetailsDesc";
 import DetailsBid from "./DetailsBid";
 import SearchHeader from "./SearchHeader"
+import OtherUsersCard from "./OtherUserCard"
+import Chats from "./Chats"
 
 export {
     CircleButton, RectButton, HomeHeader, NFTcards, DetailsDesc,  DetailsBid,
-    Title, People, Price, EndDate, ImageCamp, SubInfo, SearchHeader
+    Title, People, Price, EndDate, ImageCamp, SubInfo, SearchHeader, OtherUsersCard, Chats
 }
