@@ -4,6 +4,7 @@ import { COLORS, SIZES } from '../Theme/Index';
 import { assets } from "../constants/index"
 import { useNavigation } from '@react-navigation/native'
 import { useSelector } from "react-redux"
+import {Logo} from "../assets/onboarding/Images"
 
 function HomeHeader() {
   const currentUser = useSelector((state => state.userDetails.userDetails))
@@ -28,45 +29,7 @@ function HomeHeader() {
         justifyContent: 'space-between',
         alignItems: 'center'
       }}>
-        <Image source={assets.logo}
-          resizeMode='contain'
-          style={{
-            width: 90,
-            height: 25
-          }}
-        />
-        <TouchableOpacity onPress={() => openMap()}>
-          <View style={{
-            height: 45,
-            width: 45,
-            borderRadius: 100
-          }}>
-            <Image source={assets.logo}
-              style={{
-                height: '100%',
-                width: '100%',
-                borderRadius: 100
-              }}
-            />
-          </View>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => profileHendler()}>
-          <View style={{
-            height: 45,
-            width: 45,
-            borderRadius: 100
-          }}>
-            <Image source={{ uri: currentUser.pic }}
-              style={{
-                height: '100%',
-                width: '100%',
-                borderRadius: 100
-              }}
-            />
-          </View>
-        </TouchableOpacity>
-
-      </View>
+      
       <View style={{
         marginVertical: SIZES.font
       }}>
@@ -83,6 +46,22 @@ function HomeHeader() {
         }}>
           Here Today's Feeds
         </Text>
+      </View>
+      <TouchableOpacity onPress={() => profileHendler()}>
+          <View style={{
+            height: 45,
+            width: 45,
+            borderRadius: 100
+          }}>
+            <Image source={{ uri: currentUser?.pic }}
+              style={{
+                height: '100%',
+                width: '100%',
+                borderRadius: 100
+              }}
+            />
+          </View>
+        </TouchableOpacity>
       </View>
     </View>
   )

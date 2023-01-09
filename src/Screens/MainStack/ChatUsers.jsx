@@ -19,10 +19,14 @@ import {useSelector} from "react-redux"
 
 
 const OtherUserCard = ({data}) => {  
+
+ const navigation = useNavigation()
   return (
-    <TouchableOpacity style={Styles.cardCont}>
+    <TouchableOpacity onPress={()=>{
+       navigation.navigate('Chat', { user: data[1].userInfo, combinedId: data[0]})
+    }} style={Styles.cardCont}>
       <View style={Styles.profileImg}>
-      <Image source={{uri: data.photoURL}} 
+      <Image source={{uri: data[1].userInfo.photoURL}} 
            style={{
             height: '100%',
             width: '100%',
@@ -30,7 +34,7 @@ const OtherUserCard = ({data}) => {
            }}/>
       </View>
       <View style={Styles.nameCont}>
-        <Text style={Styles.userName}>{data.name}</Text>
+        <Text style={Styles.userName}>{data[1].userInfo.name}</Text>
       </View>
     </TouchableOpacity>
   );
@@ -44,8 +48,7 @@ const ChatUsers = () => {
         const users = []
         firestore().collection("userChat").doc(currentUser.uid).onSnapshot((data)=>{
            Object.entries(data.data())?.sort((a,b)=>b[1].date - a[1].date).forEach((chat)=>{
-             console.log("++++ From UsersChat ++++", chat[1].userInfo);
-             users.push(chat[1].userInfo)
+             users.push(chat)
            })
         if(users !== []){
             setChatUsers(users)
@@ -63,7 +66,7 @@ const ChatUsers = () => {
           <FlatList
             data={chatUsers}
             renderItem={({item}) => <OtherUserCard data={item}/>}
-            keyExtractor={(item )=> item.uid}
+            keyExtractor={(item )=> item[0]}
             showsVerticalScrollIndicator={false}
           />
         </View>

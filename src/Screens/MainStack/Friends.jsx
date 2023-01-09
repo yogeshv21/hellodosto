@@ -17,7 +17,6 @@ import firestore from '@react-native-firebase/firestore';
 import {useNavigation} from '@react-navigation/native'
 import {useSelector} from "react-redux"
 
-
 const OtherUserCard = ({data}) => {  
   const [loader , setLoader] = useState(true)
   const [userDetails, setUserDetails] = useState()
@@ -43,7 +42,7 @@ const OtherUserCard = ({data}) => {
   return (
     <TouchableOpacity style={Styles.cardCont} onPress={()=>profileHandler(userDetails)}>
       <View style={Styles.profileImg}>
-      <Image source={{uri: userDetails.pic}} 
+      <Image source={{uri: userDetails?.pic}} 
            style={{
             height: '100%',
             width: '100%',
@@ -51,8 +50,8 @@ const OtherUserCard = ({data}) => {
            }}/>
       </View>
       <View style={Styles.nameCont}>
-        <Text style={Styles.userName}>{userDetails.name}</Text>
-        <Text style={Styles.userEmail}>{userDetails.email}</Text>
+        <Text style={Styles.userName}>{userDetails?.name}</Text>
+        <Text style={Styles.userEmail}>{userDetails?.email}</Text>
       </View>
     </TouchableOpacity>
   );

@@ -40,11 +40,7 @@ const Profile = ({route, navigation}) => {
       .get()
       .then(quarySnap => {
         quarySnap.forEach(doc => {
-          doc.data().userId
-            ? console.log('mil gaya')
-            : console.log('nahi mila');
           setAddedFriend(doc.data().userId);
-          setLoading(false);
         });
       })
       .catch(err => {
@@ -54,6 +50,9 @@ const Profile = ({route, navigation}) => {
 
   useEffect(() => {
     isfriend();
+    setTimeout(() => {
+      setLoading(false);
+    }, 700);
   }, []);
 
   const logOut = () => {
@@ -133,6 +132,7 @@ const Profile = ({route, navigation}) => {
           }).catch((err)=>{
             console.log(err);
           });
+          console.log("+++++", combinedId);
           navigation.navigate('Chat', {user, combinedId})
         }else{
           navigation.navigate('Chat', {user, combinedId})

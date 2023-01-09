@@ -135,7 +135,7 @@ export default function SignUp({navigation}) {
                 >Next</Button>
                 }
 
-              <TouchableOpacity onPress={()=>navigation.goBack()}><Text style={{textAlign:"center", marginTop: 10}}>Already have an account ?</Text></TouchableOpacity>
+              <TouchableOpacity onPress={()=>navigation.goBack()}><Text style={{textAlign:"center", marginTop: 10, color: "black"}}>Already have an account ?</Text></TouchableOpacity>
             </ScrollView>
         </View>
     )
