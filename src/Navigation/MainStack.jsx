@@ -41,15 +41,7 @@ const StackNavigator = () => {
     <Stack.Navigator screenOptions={{headerShown: true}}>
       <Stack.Screen name="Details" component={Details} />
       <Stack.Screen name="Profile" component={Profile} />
-      <Stack.Screen name="Chat" component={Chat} options={({ navigation, route }) => ({
-            headerRight: () => (
-              <Button
-                onPress={() => alert('This is a button!')}
-                title="Info"
-                color="#fff"
-              />
-            ),
-        })}/>
+      <Stack.Screen name="Chat" component={Chat}/>
       <Stack.Screen name="ChatUsers" component={ChatUsers} />
     </Stack.Navigator>
   );
