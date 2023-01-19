@@ -65,6 +65,8 @@ const Search = () => {
           style={{
             height: 300,
             backgroundColor: COLORS.primary,
+            borderBottomLeftRadius: 30,
+            borderBottomRightRadius: 30,
           }}
         />
         <View
@@ -83,5 +85,6 @@ export default Search;
 const Styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: "white"
   },
 });

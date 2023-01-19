@@ -1,37 +1,37 @@
 import React, {useState, useEffect} from 'react';
 
-import {
-  Text,
-  View,
-  SafeAreaView,
-  FlatList,
-  StyleSheet,
-  TouchableOpacity,
-  Image,
-  ActivityIndicator,
-  RefreshControl
-} from 'react-native';
-import {FocusedStatusBar, SearchHeader} from '../../Components/Index';
+import { Text, View, SafeAreaView, FlatList, StyleSheet, TouchableOpacity, Image, } from 'react-native';
+import {FocusedStatusBar} from '../../Components/Index';
 import {COLORS, SHADOWS, SIZES, VH, VW} from '../../Theme/Index';
+
 import firestore from '@react-native-firebase/firestore';
-import {useNavigation} from '@react-navigation/native'
-import {useSelector} from "react-redux"
 
+import {useNavigation} from '@react-navigation/native';
 
-const OtherUserCard = ({data}) => {  
+import {useSelector} from 'react-redux';
 
- const navigation = useNavigation()
+const OtherUserCard = ({data}) => {
+
+  const navigation = useNavigation();
+
   return (
-    <TouchableOpacity onPress={()=>{
-       navigation.navigate('Chat', { user: data[1].userInfo, combinedId: data[0]})
-    }} style={Styles.cardCont}>
+    <TouchableOpacity
+      onPress={() => {
+        navigation.navigate('Chat', {
+          user: data[1].userInfo,
+          combinedId: data[0],
+        });
+      }}
+      style={Styles.cardCont}>
       <View style={Styles.profileImg}>
-      <Image source={{uri: data[1].userInfo.photoURL}} 
-           style={{
+        <Image
+          source={{uri: data[1].userInfo.photoURL}}
+          style={{
             height: '100%',
             width: '100%',
-            borderRadius: 100
-           }}/>
+            borderRadius: 100,
+          }}
+        />
       </View>
       <View style={Styles.nameCont}>
         <Text style={Styles.userName}>{data[1].userInfo.name}</Text>
@@ -40,24 +40,32 @@ const OtherUserCard = ({data}) => {
   );
 };
 
-const ChatUsers = () => { 
-  const currentUser = useSelector((state=>state.userDetails.userDetails))
-  const [chatUsers, setChatUsers] = useState([])
-  useEffect(()=>{
-     try{
-        const users = []
-        firestore().collection("userChat").doc(currentUser.uid).onSnapshot((data)=>{
-           Object.entries(data.data())?.sort((a,b)=>b[1].date - a[1].date).forEach((chat)=>{
-             users.push(chat)
-           })
-        if(users !== []){
-            setChatUsers(users)
-        }
-        })
-     }catch(err){
-        console.log(err);
-     }
-  },[])
+const ChatUsers = () => {
+
+  const currentUser = useSelector(state => state.userDetails.userDetails);
+
+  const [chatUsers, setChatUsers] = useState([]);
+
+  useEffect(() => {
+    try {
+      const users = [];
+      firestore()
+        .collection('userChat')
+        .doc(currentUser.uid)
+        .onSnapshot(data => {
+         Object.entries(data.data())
+            .forEach(chat => {
+              users.push(chat);
+            });
+          if (users !== []) {
+            setChatUsers(users);
+          }
+        });
+    } catch (err) {
+      console.log(err);
+    }
+  }, []);
+  
   return (
     <SafeAreaView style={Styles.container}>
       <FocusedStatusBar backgroundColor={COLORS.primary} />
@@ -65,8 +73,8 @@ const ChatUsers = () => {
         <View style={{zIndex: 0, flex: 1}}>
           <FlatList
             data={chatUsers}
-            renderItem={({item}) => <OtherUserCard data={item}/>}
-            keyExtractor={(item )=> item[0]}
+            renderItem={({item}) => <OtherUserCard data={item} />}
+            keyExtractor={item => item[0]}
             showsVerticalScrollIndicator={false}
           />
         </View>
@@ -131,7 +139,7 @@ const Styles = StyleSheet.create({
     fontSize: SIZES.large + 1,
     fontWeight: '500',
     marginTop: '4%',
-    color:"black"
+    color: 'black',
   },
   userEmail: {
     fontSize: SIZES.medium,

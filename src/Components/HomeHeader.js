@@ -1,10 +1,9 @@
 import React from 'react';
-import { View, Image, Text, TextInput, TouchableOpacity } from 'react-native'
+import { View, Image, Text, TextInput, TouchableOpacity} from 'react-native'
 import { COLORS, SIZES } from '../Theme/Index';
 import { assets } from "../constants/index"
 import { useNavigation } from '@react-navigation/native'
 import { useSelector } from "react-redux"
-import {Logo} from "../assets/onboarding/Images"
 
 function HomeHeader() {
   const currentUser = useSelector((state => state.userDetails.userDetails))
@@ -13,10 +12,6 @@ function HomeHeader() {
 
   function profileHendler() {
     navigation.navigate("Stack", { screen: 'Profile', params: { data: currentUser } })
-  }
-
-  const openMap = () => {
-    alert("Map screen")
   }
 
   return (
@@ -47,6 +42,15 @@ function HomeHeader() {
           Here Today's Feeds
         </Text>
       </View>
+      <TouchableOpacity onPress={() => navigation.navigate("Stack", { screen: 'Map'})}>
+          <View style={{
+            height: 45,
+            width: 45,
+            borderRadius: 100,
+            backgroundColor:"green"
+          }}>
+          </View>
+      </TouchableOpacity>
       <TouchableOpacity onPress={() => profileHendler()}>
           <View style={{
             height: 45,
@@ -61,7 +65,7 @@ function HomeHeader() {
               }}
             />
           </View>
-        </TouchableOpacity>
+      </TouchableOpacity>
       </View>
     </View>
   )

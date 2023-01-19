@@ -11,6 +11,7 @@ import styles from './Style';
 import { COLORS } from '../../../Theme/Theme';
 import {signUpError, signUpSuccess, requestSignUp} from "../../../Redux/Actions/authAction"
 import {useDispatch, useSelector} from "react-redux"
+import {getLocation} from "../../../firebase/getLocation"
 
 export default function SignUp({navigation}) {
     const dispatch = useDispatch();
@@ -21,7 +22,6 @@ export default function SignUp({navigation}) {
     const [password,setPassword] = useState('')
     const [image,setImage] = useState(null)
     const [showNext,setShowNext] = useState(false)
-    
 
     if(loading){
         return  <ActivityIndicator size="large"  color={COLORS.primary} />
@@ -41,6 +41,7 @@ export default function SignUp({navigation}) {
                 pic:image
             }).then(()=>{
                 dispatch(signUpSuccess(result.user.uid))
+                getLocation(result.user.uid)
             })  
             firestore().collection('userChat').doc(result.user.uid).set({});
         }catch(err){

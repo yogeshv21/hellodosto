@@ -1,24 +1,24 @@
 import React, {useState, useEffect, useRef} from 'react';
-import {
-  View,
-  StyleSheet,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  FlatList,
-  Image,
-} from 'react-native';
+
+import { View, StyleSheet, Text, TextInput, TouchableOpacity, FlatList, Image,} from 'react-native';
 import {COLORS, VW} from '../../Theme/Theme';
+
 import firestore from '@react-native-firebase/firestore';
+
 import {useSelector} from 'react-redux';
 
 const Chat = ({route, navigation}) => {
+
   const currentUser = useSelector(state => state.userDetails.userDetails);
+
   const user = route.params.user;
   const chatId = route.params.combinedId;
+
   const [messages, setMessages] = useState(null);
+
   const [inputTxt, setInputTxt] = useState('');
   const [inputField, setInputField] = useState(false);
+
   const scrollViewRef = useRef(null);
 
   useEffect(() => {
@@ -27,10 +27,21 @@ const Chat = ({route, navigation}) => {
         .collection('chats')
         .doc(chatId)
         .onSnapshot(res => {
-          setMessages(res.data().messages);
-         console.log('=========', res.data().messages[0]);
+         setMessages(res.data().messages);
         });
-      isfriend();
+
+      firestore()
+        .collection('users')
+        .doc(currentUser.uid)
+        .collection('friends')
+        .where('userId', '==', user.uid)
+        .onSnapshot(quarySnap => {
+          quarySnap.forEach(doc => {
+            if (doc.data().userId === user.uid) {
+              setInputField(true);
+            }
+          });
+         })
     } catch (err) {
       console.log(err);
     }
@@ -71,24 +82,6 @@ const Chat = ({route, navigation}) => {
     });
   }, [route]);
 
-  const isfriend = () => {
-    firestore()
-      .collection('users')
-      .doc(currentUser.uid)
-      .collection('friends')
-      .where('userId', '==', user.uid)
-      .onSnapshot(quarySnap => {
-        quarySnap.forEach(doc => {
-          if (doc.data().userId === user.uid) {
-            setInputField(true);
-          }
-        });
-      })
-      .catch(err => {
-        console.log(err);
-      });
-  };
-
   const handleSend = () => {
     try {
       firestore()
@@ -118,101 +111,107 @@ const Chat = ({route, navigation}) => {
           }
           onLayout={() => scrollViewRef.current?.scrollToEnd({animated: true})}
           data={messages}
-          renderItem={({item}) => (
-            item.senderId === currentUser.uid?
-            <View style={{flexDirection:"row-reverse", alignSelf:"flex-end", marginTop: 26}}>
-              <TouchableOpacity
-               style={{alignSelf:"flex-end",  marginRight: 15}}
-                onPress={() =>
-                  navigation.navigate('Stack', {
-                    screen: 'Profile',
-                    params: {
-                      data: currentUser,
-                    },
-                  })
-                }
-                title={user.name}>
-                <View
-                  style={{
-                    height: VW(14),
-                    width: VW(14),
-                    borderRadius: 200,
-                    overflow: 'hidden',
-                  }}>
-                  <Image
-                    source={{uri: currentUser.pic}}
-                    resizeMode={'cover'}
-                    style={{
-                      height: '100%',
-                      width: '100%',
-                    }}
-                  />
-                </View>
-              </TouchableOpacity>
+          renderItem={({item}) =>
+            item.senderId === currentUser.uid ? (
               <View
-                style={[
-                  Styles.msg, Styles.msg_rgt     
-                ]}>
-                <Text
-                  style={[
-                    Styles.msg_txt,
-                    {
-                      color:'white',
-                    },
-                  ]}>
-                  {item.text}
-                </Text>
+                style={{
+                  flexDirection: 'row-reverse',
+                  alignSelf: 'flex-end',
+                  marginTop: 26,
+                }}>
+                <TouchableOpacity
+                  style={{alignSelf: 'flex-end', marginRight: 15}}
+                  onPress={() =>
+                    navigation.navigate('Stack', {
+                      screen: 'Profile',
+                      params: {
+                        data: currentUser,
+                      },
+                    })
+                  }
+                  title={user.name}>
+                  <View
+                    style={{
+                      height: VW(14),
+                      width: VW(14),
+                      borderRadius: 200,
+                      overflow: 'hidden',
+                    }}>
+                    <Image
+                      source={{uri: currentUser.pic}}
+                      resizeMode={'cover'}
+                      style={{
+                        height: '100%',
+                        width: '100%',
+                      }}
+                    />
+                  </View>
+                </TouchableOpacity>
+                <View style={[Styles.msg, Styles.msg_rgt]}>
+                  <Text
+                    style={[
+                      Styles.msg_txt,
+                      {
+                        color: 'white',
+                      },
+                    ]}>
+                    {item.text}
+                  </Text>
+                </View>
               </View>
-            </View>:
-             <View style={{flexDirection:"row", alignSelf:"flex-start",  marginTop: 26,}}>
-             <TouchableOpacity
-              style={{alignSelf:"flex-start", marginLeft: 15}}
-               onPress={() =>
-                 navigation.navigate('Stack', {
-                   screen: 'Profile',
-                   params: {
-                     data: {
-                       name: user.name,
-                       pic: user.photoURL,
-                       uid: user.uid,
-                     },
-                   },
-                 })
-               }
-               title={user.name}>
-               <View
-                 style={{
-                    height: VW(14),
-                    width: VW(14),
-                   borderRadius: 200,
-                   overflow: 'hidden',
-                 }}>
-                 <Image
-                   source={{uri: user.photoURL}}
-                   resizeMode={'cover'}
-                   style={{
-                     height: '100%',
-                     width: '100%',
-                   }}
-                 />
-               </View>
-             </TouchableOpacity>
-             <View
-               style={[
-                 Styles.msg, Styles.msg_lft    
-               ]}>
-               <Text
-                 style={[
-                   Styles.msg_txt,
-                   {
-                     color:'black',
-                   },
-                 ]}>
-                 {item.text}
-               </Text>
-             </View>
-           </View>
-          )}
+            ) : (
+              <View
+                style={{
+                  flexDirection: 'row',
+                  alignSelf: 'flex-start',
+                  marginTop: 26,
+                }}>
+                <TouchableOpacity
+                  style={{alignSelf: 'flex-start', marginLeft: 15}}
+                  onPress={() =>
+                    navigation.navigate('Stack', {
+                      screen: 'Profile',
+                      params: {
+                        data: {
+                          name: user.name,
+                          pic: user.photoURL,
+                          uid: user.uid,
+                        },
+                      },
+                    })
+                  }
+                  title={user.name}>
+                  <View
+                    style={{
+                      height: VW(14),
+                      width: VW(14),
+                      borderRadius: 200,
+                      overflow: 'hidden',
+                    }}>
+                    <Image
+                      source={{uri: user.photoURL}}
+                      resizeMode={'cover'}
+                      style={{
+                        height: '100%',
+                        width: '100%',
+                      }}
+                    />
+                  </View>
+                </TouchableOpacity>
+                <View style={[Styles.msg, Styles.msg_lft]}>
+                  <Text
+                    style={[
+                      Styles.msg_txt,
+                      {
+                        color: 'black',
+                      },
+                    ]}>
+                    {item.text}
+                  </Text>
+                </View>
+              </View>
+            )
+          }
           style={{flex: 1, marginBottom: 20}}
         />
       ) : (
