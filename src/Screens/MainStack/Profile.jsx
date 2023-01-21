@@ -40,9 +40,6 @@ const Profile = ({route, navigation}) => {
       .get()
       .then(quarySnap => {
         quarySnap.forEach(doc => {
-          doc.data().userId
-            ? console.log('mil gaya')
-            : console.log('nahi mila');
           setAddedFriend(doc.data().userId);
         });
       })
@@ -55,7 +52,7 @@ const Profile = ({route, navigation}) => {
     isfriend();
     setTimeout(() => {
       setLoading(false);
-    }, 1000);
+    }, 700);
   }, []);
 
   const logOut = () => {
@@ -135,6 +132,7 @@ const Profile = ({route, navigation}) => {
           }).catch((err)=>{
             console.log(err);
           });
+          console.log("+++++", combinedId);
           navigation.navigate('Chat', {user, combinedId})
         }else{
           navigation.navigate('Chat', {user, combinedId})
@@ -147,9 +145,9 @@ const Profile = ({route, navigation}) => {
 
   return (
     <View>
-      <Text>Profile</Text>
-      <Text>Name - {user.name}</Text>
-      <Text>Name - {user.email}</Text>
+      <Text style={{color:"black"}}>Profile</Text>
+      <Text style={{color:"black"}}>Name - {user.name}</Text>
+      <Text style={{color:"black"}}>Name - {user.email}</Text>
       <View style={{height: 200, width: 200}}>
         <Image
           source={{uri: user.pic}}

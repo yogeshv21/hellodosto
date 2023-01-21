@@ -1,9 +1,10 @@
 import React from 'react';
-import { View, Image, Text, TextInput, TouchableOpacity } from 'react-native'
+import { View, Image, Text, TextInput, TouchableOpacity} from 'react-native'
 import { COLORS, SIZES } from '../Theme/Index';
 import { assets } from "../constants/index"
 import { useNavigation } from '@react-navigation/native'
 import { useSelector } from "react-redux"
+import Icon from "react-native-vector-icons/FontAwesome5"
 
 function HomeHeader() {
   const currentUser = useSelector((state => state.userDetails.userDetails))
@@ -12,10 +13,6 @@ function HomeHeader() {
 
   function profileHendler() {
     navigation.navigate("Stack", { screen: 'Profile', params: { data: currentUser } })
-  }
-
-  const openMap = () => {
-    alert("Map screen")
   }
 
   return (
@@ -28,45 +25,7 @@ function HomeHeader() {
         justifyContent: 'space-between',
         alignItems: 'center'
       }}>
-        <Image source={assets.logo}
-          resizeMode='contain'
-          style={{
-            width: 90,
-            height: 25
-          }}
-        />
-        <TouchableOpacity onPress={() => openMap()}>
-          <View style={{
-            height: 45,
-            width: 45,
-            borderRadius: 100
-          }}>
-            <Image source={assets.logo}
-              style={{
-                height: '100%',
-                width: '100%',
-                borderRadius: 100
-              }}
-            />
-          </View>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => profileHendler()}>
-          <View style={{
-            height: 45,
-            width: 45,
-            borderRadius: 100
-          }}>
-            <Image source={{ uri: currentUser.pic }}
-              style={{
-                height: '100%',
-                width: '100%',
-                borderRadius: 100
-              }}
-            />
-          </View>
-        </TouchableOpacity>
-
-      </View>
+      
       <View style={{
         marginVertical: SIZES.font
       }}>
@@ -83,6 +42,37 @@ function HomeHeader() {
         }}>
           Here Today's Feeds
         </Text>
+      </View>
+      <TouchableOpacity onPress={() => navigation.navigate("Stack", { screen: 'Map'})}>
+          <View style={{
+            height: 45,
+            width: 45,
+            borderRadius: 100,
+            alignItems: "center",
+            justifyContent: "center",
+          }}>
+               <Icon
+                name={'map-marked-alt'}
+                size={SIZES.extraLarge}
+                color={"white"}
+              />
+          </View>
+      </TouchableOpacity>
+      <TouchableOpacity onPress={() => profileHendler()}>
+          <View style={{
+            height: 45,
+            width: 45,
+            borderRadius: 100
+          }}>
+            <Image source={{ uri: currentUser?.pic }}
+              style={{
+                height: '100%',
+                width: '100%',
+                borderRadius: 100
+              }}
+            />
+          </View>
+      </TouchableOpacity>
       </View>
     </View>
   )

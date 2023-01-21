@@ -17,7 +17,6 @@ import firestore from '@react-native-firebase/firestore';
 import {useNavigation} from '@react-navigation/native'
 import {useSelector} from "react-redux"
 
-
 const OtherUserCard = ({data}) => {  
   const [loader , setLoader] = useState(true)
   const [userDetails, setUserDetails] = useState()
@@ -43,7 +42,7 @@ const OtherUserCard = ({data}) => {
   return (
     <TouchableOpacity style={Styles.cardCont} onPress={()=>profileHandler(userDetails)}>
       <View style={Styles.profileImg}>
-      <Image source={{uri: userDetails.pic}} 
+      <Image source={{uri: userDetails?.pic}} 
            style={{
             height: '100%',
             width: '100%',
@@ -51,8 +50,8 @@ const OtherUserCard = ({data}) => {
            }}/>
       </View>
       <View style={Styles.nameCont}>
-        <Text style={Styles.userName}>{userDetails.name}</Text>
-        <Text style={Styles.userEmail}>{userDetails.email}</Text>
+        <Text style={Styles.userName}>{userDetails?.name}</Text>
+        <Text style={Styles.userEmail}>{userDetails?.email}</Text>
       </View>
     </TouchableOpacity>
   );
@@ -62,9 +61,9 @@ const Friends = () => {
   const [loader , setLoader] = useState(true)
   const currentUser = useSelector((state=>state.userDetails.userDetails))
   const [friends, setFrineds] = useState();   
-  const getFriends = async() => {
+  const getFriends = () => {
     try{
-      await firestore().collection('users').doc(currentUser.uid).collection('friends').onSnapshot((quarySnap)=>{
+        firestore().collection('users').doc(currentUser.uid).collection('friends').onSnapshot((quarySnap)=>{
         const allUsers = quarySnap.docs.map(docSnap => docSnap.data());
         setFrineds(allUsers)
         setLoader(false)
@@ -154,6 +153,7 @@ const Styles = StyleSheet.create({
     fontSize: SIZES.large + 1,
     fontWeight: '500',
     marginTop: '4%',
+    color:"black"
   },
   userEmail: {
     fontSize: SIZES.medium,

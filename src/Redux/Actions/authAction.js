@@ -1,6 +1,7 @@
 import actionType from "../actionType"
 import auth from "@react-native-firebase/auth"
 import {getUserDetails} from "./userDataAction"
+import {getLocation} from "../../firebase/getLocation"
 
 // ================= LOGIN USER ============== //
 
@@ -30,6 +31,7 @@ export const loginUser = (email, password)=>{
          auth().signInWithEmailAndPassword(email, password).then((result)=>{
              dispatch(loginSuccess(result.user.uid));
              dispatch(getUserDetails(result.user.uid))
+             getLocation(result.user.uid)
          }).catch((err)=>{
              dispatch(loginError("login failed"))
          })

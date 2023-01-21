@@ -3,7 +3,8 @@ import actionType from "../actionType"
 const initialState = {
     loading : true,
     userDetails: null,
-    error: null
+    error: null,
+    location: null
 }
 
 const userDetailsReducer = (state = initialState, action)=>{
@@ -25,6 +26,13 @@ const userDetailsReducer = (state = initialState, action)=>{
             loading: false,
             error: action.payload
         }
+
+        case(actionType.GET_CURRENT_USER_lOCATION):
+        return{
+            ...state,
+            location: action.payload
+        }
+
         default: return state
       }
 }
