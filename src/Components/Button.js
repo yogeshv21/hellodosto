@@ -10,7 +10,6 @@ export const CircleButton = (props)=>{
            width: 40,
            borderRadius: SIZES.extraLarge,
            backgroundColor: COLORS.white,
-           position: 'absolute',
            alignItems: 'center',
            justifyContent: 'center',
            ...props,

@@ -4,6 +4,7 @@ import { COLORS, SIZES } from '../Theme/Index';
 import { assets } from "../constants/index"
 import { useNavigation } from '@react-navigation/native'
 import { useSelector } from "react-redux"
+import Icon from "react-native-vector-icons/FontAwesome5"
 
 function HomeHeader() {
   const currentUser = useSelector((state => state.userDetails.userDetails))
@@ -47,8 +48,14 @@ function HomeHeader() {
             height: 45,
             width: 45,
             borderRadius: 100,
-            backgroundColor:"green"
+            alignItems: "center",
+            justifyContent: "center",
           }}>
+               <Icon
+                name={'map-marked-alt'}
+                size={SIZES.extraLarge}
+                color={"white"}
+              />
           </View>
       </TouchableOpacity>
       <TouchableOpacity onPress={() => profileHendler()}>
