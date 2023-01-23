@@ -1,15 +1,17 @@
 import React from "react";
 
 import { View, TouchableOpacity, Image, Text, Pressable } from "react-native";
+import  Icon from "react-native-vector-icons/Entypo";
 import { COLORS, SHADOWS, SIZES } from "../Theme/Index";
+import { scale } from "../Theme/Theme";
 
 export const CircleButton = (props)=>{
     return (
         <TouchableOpacity style={{
-           height: 40,
-           width: 40,
+            height: scale(40),
+            width: scale(40),
            borderRadius: SIZES.extraLarge,
-           backgroundColor: COLORS.white,
+           backgroundColor: props.backgroundColor,
            alignItems: 'center',
            justifyContent: 'center',
            ...props,
@@ -17,12 +19,7 @@ export const CircleButton = (props)=>{
         }}
         onPress={props.handelPress}
         >
-           <Image source={props.imgUrl} resizeMode={'contain'} 
-           style={{
-              height: 24,
-              width: 24
-           }}
-           />
+           <Icon name={'chevron-small-left'} size={scale(32)} color={props.color} />
         </TouchableOpacity>
     )
 }

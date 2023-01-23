@@ -5,6 +5,7 @@ import { assets } from "../constants/index"
 import { useNavigation } from '@react-navigation/native'
 import { useSelector } from "react-redux"
 import Icon from "react-native-vector-icons/FontAwesome5"
+import { scale } from '../Theme/Theme';
 
 function HomeHeader() {
   const currentUser = useSelector((state => state.userDetails.userDetails))
@@ -31,14 +32,15 @@ function HomeHeader() {
       }}>
 
         <Text style={{
-          color: COLORS.gray,
-          fontSize: SIZES.medium
+          color: "white",
+          fontSize: scale(30),
+          fontWeight: "500",
         }}>
           Hello, {currentUser.name}
         </Text>
         <Text style={{
-          color: COLORS.white,
-          fontSize: SIZES.extraLarge
+          color: "white",
+          fontSize: SIZES.large
         }}>
           Here Today's Feeds
         </Text>

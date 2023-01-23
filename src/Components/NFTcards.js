@@ -1,55 +1,32 @@
 import React from 'react';
-import {View, Image, Text} from 'react-native'
+import {View, Image, Text, TouchableOpacity} from 'react-native'
 import {useNavigation} from '@react-navigation/native'
 import {assets} from "../constants/index"
 import { COLORS, SHADOWS, SIZES} from '../Theme/Index'
 import { CircleButton, RectButton } from '../Components/Button';
 import { SubInfo, Price, Title } from '../Components/SubInfo';
+import { scale, verticalScale } from '../Theme/Theme';
 
 
 function NFTcards({data}) {
     const navigation = useNavigation();
     function navigateToDetails(){
-      // navigation.navigate('Details', {data})
       navigation.navigate('Stack', {screen: "Details", params:{data}})
     }
     
   return (
-     <View style={{
+     <TouchableOpacity activeOpacity={.8} onPress={navigateToDetails} style={{
       backgroundColor: COLORS.white,
       borderRadius: SIZES.font,
       marginBottom: SIZES.extraLarge,
       margin: SIZES.base,
-      ...SHADOWS.dark
+      ...SHADOWS.medium,
+      padding: scale(10),
      }}>
-        <View style={{
-            width: '100%',
-            height: 250
-            }}>
-         <Image source={data.image} 
-          resizeMode={'cover'}
-          style={{
-            height:'100%',
-            width:'100%',
-            borderTopLeftRadius: SIZES.font,
-            borderTopRightRadius: SIZES.font
-          }}
-         />
-     <CircleButton imgUrl={assets.heart} right={10} top={10}/>
-        </View>
-        <SubInfo/>
-        <View style={{
-         width: '100%',
-         padding: SIZES.font
-        }}>
-           <Title
-           title={data.name}
-           subTitle={data.creator}
-           titleSize={SIZES.large}
-           subTitleSize={SIZES.small}
-           />
-        </View>
-     </View>
+      <View style={{height: verticalScale(200), borderRadius: SIZES.font, overflow: "hidden"}}>
+          <Image source={data.image} style={{height: "100%", width: "100%"}} resizeMode={"cover"}/>
+      </View>
+     </TouchableOpacity>
   )
 }
 

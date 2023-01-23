@@ -109,13 +109,19 @@ const DashBoard = () => {
 const StackNavigator = () => {
   return (
     <Stack.Navigator screenOptions={{headerShown: true}}>
-      <Stack.Screen name="Details" component={Details} />
+      <Stack.Screen name="Details" component={Details} options={{
+            headerShown: false,
+          }}/>
       <Stack.Screen name="Profile" component={Profile} options={{
             headerShown: false,
           }}/>
       <Stack.Screen name="Chat" component={Chat} />
-      <Stack.Screen name="ChatUsers" component={ChatUsers} />
-      <Stack.Screen name="Map" component={Map} />
+      <Stack.Screen name="ChatUsers" component={ChatUsers} options={{
+            headerShown: false,
+          }} />
+      <Stack.Screen name="Map" component={Map}  options={{
+            headerShown: false,
+          }}/>
     </Stack.Navigator>
   );
 };

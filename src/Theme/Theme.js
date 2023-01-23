@@ -1,5 +1,17 @@
 import { Dimensions } from 'react-native';
 
+const { width, height } = Dimensions.get('window');
+
+//Guideline sizes are based on standard ~5" screen mobile device
+const guidelineBaseWidth = 350;
+const guidelineBaseHeight = 680;
+
+const scale = size => width / guidelineBaseWidth * size;
+const verticalScale = size => height / guidelineBaseHeight * size;
+const moderateScale = (size, factor = 0.5) => size + ( scale(size) - size ) * factor;
+
+export {scale, verticalScale, moderateScale};
+
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
@@ -20,12 +32,12 @@ export const COLORS = {
   };
   
   export const SIZES = {
-    base: 8,
-    small: 12,
-    font: 14,
-    medium: 16,
-    large: 18,
-    extraLarge: 24,
+    base: scale(5),
+    small: scale(9),
+    font: scale(11),
+    medium: scale(13),
+    large: scale(17),
+    extraLarge: scale(21),
   };
   
   export const SHADOWS = {

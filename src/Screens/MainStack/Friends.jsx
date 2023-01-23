@@ -16,6 +16,7 @@ import {COLORS, SHADOWS, SIZES, VH, VW} from '../../Theme/Index';
 import firestore from '@react-native-firebase/firestore';
 import {useNavigation} from '@react-navigation/native'
 import {useSelector} from "react-redux"
+import { scale, verticalScale } from '../../Theme/Theme';
 
 const OtherUserCard = ({data}) => {  
   const [loader , setLoader] = useState(true)
@@ -104,8 +105,10 @@ const Friends = () => {
         }}>
         <View
           style={{
-            height: 300,
+            height: verticalScale(240),
             backgroundColor: COLORS.primary,
+            borderBottomLeftRadius: scale(50),
+            borderBottomRightRadius: scale(50),
           }}
         />
         <View

@@ -9,6 +9,7 @@ import firestore from '@react-native-firebase/firestore';
 import {useNavigation} from '@react-navigation/native';
 
 import {useSelector} from 'react-redux';
+import { scale } from '../../Theme/Theme';
 
 const OtherUserCard = ({data}) => {
 
@@ -35,6 +36,7 @@ const OtherUserCard = ({data}) => {
       </View>
       <View style={Styles.nameCont}>
         <Text style={Styles.userName}>{data[1].userInfo.name}</Text>
+        <Text style={{color: COLORS.gray, fontSize: scale(15)}}>{data[1]?.lastMessage?.inputTxt}</Text>
       </View>
     </TouchableOpacity>
   );
@@ -44,27 +46,28 @@ const ChatUsers = () => {
 
   const currentUser = useSelector(state => state.userDetails.userDetails);
 
-  const [chatUsers, setChatUsers] = useState([]);
+  const [chatUsers, setChatUsers] = useState();
 
   useEffect(() => {
+    return fatchChatUsers()
+  }, []);
+
+  const fatchChatUsers = ()=>{
     try {
-      const users = [];
       firestore()
         .collection('userChat')
         .doc(currentUser.uid)
         .onSnapshot(data => {
-         Object.entries(data.data())
-            .forEach(chat => {
-              users.push(chat);
-            });
-          if (users !== []) {
-            setChatUsers(users);
-          }
+         const chatUsersdata = Object.entries(data.data())
+            .map(datachat => {
+              return datachat
+          });
+          setChatUsers(chatUsersdata )
         });
     } catch (err) {
       console.log(err);
     }
-  }, []);
+  }
   
   return (
     <SafeAreaView style={Styles.container}>

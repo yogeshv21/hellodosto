@@ -12,6 +12,7 @@ const Chat = ({route, navigation}) => {
   const currentUser = useSelector(state => state.userDetails.userDetails);
 
   const user = route.params.user;
+  console.log("???????????", user);
   const chatId = route.params.combinedId;
 
   const [messages, setMessages] = useState(null);
@@ -94,6 +95,17 @@ const Chat = ({route, navigation}) => {
             date: firestore.Timestamp.now(),
           }),
         });
+        firestore().collection('userChat').doc(user.uid).update({
+          [chatId + '.lastMessage']: {
+            inputTxt
+          },
+        })
+        firestore().collection('userChat').doc(currentUser.uid).update({
+          [chatId + '.lastMessage']: {
+            inputTxt
+          },
+        })
+       
     } catch (err) {
       console.log(err);
     }
@@ -174,8 +186,9 @@ const Chat = ({route, navigation}) => {
                       params: {
                         data: {
                           name: user.name,
-                          pic: user.photoURL,
+                          pic: user.photoURL || user.pic,
                           uid: user.uid,
+                          email: user?.email
                         },
                       },
                     })
@@ -189,7 +202,7 @@ const Chat = ({route, navigation}) => {
                       overflow: 'hidden',
                     }}>
                     <Image
-                      source={{uri: user.photoURL}}
+                      source={{uri: user.photoURL || user.pic}}
                       resizeMode={'cover'}
                       style={{
                         height: '100%',

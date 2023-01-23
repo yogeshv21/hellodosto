@@ -6,6 +6,7 @@ import HomeHeader from '../../Components/HomeHeader';
 import {FocusedStatusBar, Chats} from '../../Components/Index';
 import NFTcards from '../../Components/NFTcards';
 import {COLORS} from '../../Theme/Index';
+import { scale, verticalScale } from '../../Theme/Theme';
 
 const Home = () => {
   const [nftData, setNftData] = useState(NFTData);
@@ -13,7 +14,7 @@ const Home = () => {
   return (
     <SafeAreaView style={Styles.container}>
       <Chats/>
-      <FocusedStatusBar backgroundColor={COLORS.primary} />
+      <FocusedStatusBar backgroundColor={COLORS.primary}/>
       <View style={{flex: 1}}>
         <View style={{zIndex: 0}}>
           <FlatList
@@ -36,8 +37,10 @@ const Home = () => {
         }}>
         <View
           style={{
-            height: 300,
+            height: verticalScale(240),
             backgroundColor: COLORS.primary,
+            borderBottomLeftRadius: scale(50),
+            borderBottomRightRadius: scale(50),
           }}
         />
         <View
@@ -56,5 +59,6 @@ export default Home;
 const Styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: "white"
   },
 });

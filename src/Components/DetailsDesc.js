@@ -21,7 +21,6 @@ const DetailsDesc = ({ data }) => {
           titleSize={SIZES.extraLarge}
           subTitleSize={SIZES.font}
         />
-        <Price price={data.price} />
       </View>
       <View style={{
         marginVertical: SIZES.extraLarge * 1.5
@@ -50,7 +49,7 @@ const DetailsDesc = ({ data }) => {
             {!readMore && '....'}
             <Text
              style={{
-              fontSize: SIZES.medium + 2,
+              fontSize: SIZES.medium,
               color: COLORS.primary,
             }}
             onPress={()=>{

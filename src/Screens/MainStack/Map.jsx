@@ -6,12 +6,16 @@ import {
   TouchableOpacity,
   Image,
   ActivityIndicator,
+  StatusBar
 } from 'react-native';
+import {FocusedStatusBar, CircleButton} from '../../Components/Index';
+import {assets} from '../../constants/index';
 import MapView, { Marker } from 'react-native-maps';
 import { useSelector } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
 import firestore from '@react-native-firebase/firestore';
 import { useEffect, useState } from 'react';
+import { COLORS } from '../../Theme/Theme';
 
 function degreesToRadians(angle) {
   return angle * (Math.PI / 180);
@@ -107,11 +111,39 @@ const Map = () => {
     )
   }
 
+  const DetailsHeader = () => {
+    return (
+      <View
+        style={{
+          width: '100%',
+          flexDirection: 'row',
+          alignItems: 'center',
+          position: "absolute",
+          zIndex: 2,
+          justifyContent: 'space-between',
+          paddingHorizontal: '5%',
+          top: StatusBar.currentHeight + 30,
+        }}>
+          <CircleButton
+          handelPress={() => navigation.goBack()}
+          backgroundColor={COLORS.primary}
+          color= {"white"}
+        />
+      </View>
+    );
+  };
+
   if (loader) {
     return <ActivityIndicator size={'small'} />;
   } else {
     return (
       <View style={styles.container}>
+        <FocusedStatusBar 
+        backgroundColor='transparent'
+        barStyle='dark-content' 
+        translucent={true}
+        /> 
+        <DetailsHeader/>
         {/*Render our MapView*/}
         <MapView
           style={styles.map}

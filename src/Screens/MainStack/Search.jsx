@@ -9,6 +9,7 @@ import {
 import {FocusedStatusBar, SearchHeader, OtherUsersCard} from '../../Components/Index';
 import {COLORS} from '../../Theme/Index';
 import firestore from '@react-native-firebase/firestore';
+import { scale, verticalScale } from '../../Theme/Theme';
 
 const Search = () => { 
   const [users, setUsers] = useState();
@@ -63,10 +64,10 @@ const Search = () => {
         }}>
         <View
           style={{
-            height: 300,
+            height: verticalScale(240),
             backgroundColor: COLORS.primary,
-            borderBottomLeftRadius: 30,
-            borderBottomRightRadius: 30,
+            borderBottomLeftRadius: scale(50),
+            borderBottomRightRadius: scale(50),
           }}
         />
         <View
